@@ -18,5 +18,9 @@ class DateValidator
     public static function phpToMysql(string $date){
         return $mysqldate = date( 'Y-m-d H:i:s', $date ); 
     }
+    
+    public static function mysqlToPhp(string $date){
+        return $phpdate = date('Y-m-d', strtotime( $mysqldate ));
+    }
 }
 
