@@ -22,8 +22,8 @@ and open the template in the editor.
         echo "<pre>";
         print_r($skillLevel);
         echo "</pre>";
-     */
-        $graph = util\RootNode::getInstance();
+     *8/
+     /   $graph = util\RootNode::getInstance();
         
         $node1 = new \util\Node(1);
         $node2 = new \util\Node(2);
@@ -38,7 +38,16 @@ and open the template in the editor.
         print_r($node1);
         echo "------------------------------------------------------------------------------------------------------------";
         print_r($node2);
-        echo "</pre>";
+        echo "</pre>"; */
+        
+       // $projectdao = new \project\persistent\ProjectDao();
+      //  $project = $projectdao->getById(1);
+        
+        $dao = new \worker\persistent\WorkerDao();
+        $project = $dao->getById(1);
+            echo '<pre>';
+        print_r($project);
+        echo '</pre>';
         ?>
     </body>
 </html>

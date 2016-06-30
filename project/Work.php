@@ -8,20 +8,14 @@ abstract class Work
      * Author: Davidson Anthony Edwards
      * Purpose: A description of work which is to be done or which has been done
      */
-    protected $id;
+    
     protected $iterationNo;
     protected $effort;
     protected $cost;
     protected $duration;
     protected $startDate;
     protected $endDate;
-    protected $skillSet;
-    protected $assignment; 
-    protected $constraints;
     
-    public function getId(){
-        return $this->id;
-    }
 
     public function getIterationNo() {
         return $this->iterationNo;
@@ -45,18 +39,6 @@ abstract class Work
 
     public function getEndDate() {
         return $this->endDate;
-    }
-
-    public function getSkillSet() {
-        return $this->skillSet;
-    }
-
-    public function getAssignment() {
-        return $this->assignment;
-    }
-    
-    public function getConstraints() {
-        return $this->constraints;
     }
 
     public function setIterationNo(int $iterationNo) {
@@ -89,18 +71,6 @@ abstract class Work
         assert(!empty($this->startDate), 'ERROR: Start date not set');
         $this->endDate = $endDate;
         assert(strtotime($this->endDate) >= strtotime($this->startDate), 'ERROR: End date before start date');
-    }
-
-    public function setSkillSet(\worker\SkillSet $skillSet) {
-        $this->skillSet = $skillSet;
-    }
-
-    public function setAssignment($assignment) {
-        $this->assignment = $assignment;
-    }
-
-    public function setConstraints(Constraints $constraints) {
-        $this->constraints = $constraints;
     }
 
 

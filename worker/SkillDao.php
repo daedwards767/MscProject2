@@ -17,9 +17,6 @@ class SkillDao extends \database\DatabaseDao
         $sql = "INSERT INTO $this->tablename (id, min_value, max_value) VALUES (?, ?, ?) "
                 . "ON DUPLICATE KEY UPDATE min_value = VALUES(min_value), max_value = VALUES(max_value)";
         $statement = $connection->getConnection()->prepare($sql);
-        echo "<pre>";
-        var_dump($entity);
-        echo '</pre>';
         $name = $entity->getName();
         $min = $entity->getMin();
         $max = $entity->getMax();

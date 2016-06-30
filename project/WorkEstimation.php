@@ -6,7 +6,7 @@ class WorkEstimation extends Work
 {
     /*
      * Author: Davidson Anthony Edwards
-     * Purpose: A description of work which is to be done 
+     * Purpose: An estimation of the of work which is to be done 
      */
 }
 

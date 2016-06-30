@@ -34,24 +34,31 @@ class Constraints{
         return $this->maxEffort;
     }
 
-    public function setBudget($budget) {
+    public function setBudget(float $budget) {
         $this->budget = $budget;
+        assert($this->budget >= 0);
     }
 
-    public function setMaxDuration($maxDuration) {
+    public function setMaxDuration(int $maxDuration) {
         $this->maxDuration = $maxDuration;
+        assert($this->maxDuration >= 0);
     }
 
-    public function setLatestStartDate($latestStartDate) {
-        $this->latestStartDate = $latestStartDate;
+    public function setLatestStartDate(string $latestStartDate) {
+        if (assert(\util\DateValidator::validateDate($latestStartDate), 'ERROR: Invalid date format')){
+            $this->latestStartDate = $latestStartDate;
+        }    
     }
 
-    public function setLatestEndDate($latestEndDate) {
-        $this->latestEndDate = $latestEndDate;
+    public function setLatestEndDate(string $latestEndDate) {
+         if (assert(\util\DateValidator::validateDate($latestEndDate), 'ERROR: Invalid date format')){
+            $this->latestEndDate = $latestEndDate;
+        }    
     }
 
-    public function setMaxEffort($maxEffort) {
+    public function setMaxEffort(int $maxEffort) {
         $this->maxEffort = $maxEffort;
+        assert($this->maxEffort >= 0);
     }
 
 

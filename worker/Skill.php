@@ -26,7 +26,7 @@ class Skill implements \database\Persistent
     }
     
     public function getid(){
-        return getName();
+        return $this->getName();
     }
     
     public function getName() {

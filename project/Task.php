@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace project; 
 
-class Task extends Work{
+class Task extends WorkIteration{
     /*
      * Author: Davidson Anthony Edwards
      * Purpose: Work done towards the completion of a project using human resources from a project team. May require

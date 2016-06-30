@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace worker; 
 
-class UnavailabilitySchedule extends Schedule{
+class UnavailabilityCalendar extends Availability{
     protected $dates = array();
     
     public function __construct(Array $dates){

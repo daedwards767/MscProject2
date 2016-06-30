@@ -14,10 +14,10 @@ class SkillPreference
     protected $max;
     protected $preference;
     
-    public function __construct(Skill $skill, int $min = 1, int $max = 5, int $preference = -1) {
+    public function __construct(Skill $skill, int $preference = -1, int $min = 1, int $max = 5) {
         $valid = (assert($min >= 0, "ERROR: Lower bound on skill preference (min) is not positive") &&
                     assert($max >= $min, "ERROR: Upper bound is less than lower bound")); 
-        if (!valid){
+        if (!$valid){
             throw new Exception('Invalid skill preference parameters in constructor');
         }
         else{

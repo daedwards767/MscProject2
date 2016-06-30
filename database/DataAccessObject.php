@@ -10,7 +10,7 @@ interface DataAccessObject {
     
     public function getAll();
     public function getById(string $id);
-    public function getByCriteria(string $criteria, string $value);
+    public function getByCriteria(string $criteria, Array $values);
     public function update(Persistent $entity);
     public function delete(string $id);
     public function add(Persistent $entity);

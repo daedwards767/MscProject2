@@ -6,24 +6,53 @@ class Worker implements \database\Persistent
 {
     /*
      * Author: Davidson Anthony Edwards
-     * Purpose: An entity with a skillset, schedule, payment information and preferences who can do work 
+     * Purpose: An entity with a skillset, an availability calendar, payment information and preferences who can do work 
      */
+    protected $firstName;
+    protected $lastName;
     protected $skillSet;
     protected $skillPreferences = array();
-    protected $schedule;
+    protected $availability;
     protected $paymentInfo;
     
-    use database\PersistentTrait;
+    use \database\PersistentTrait;
     
-    public function __construct(SkillSet $skillSet, Schedule $schedule, PaymentInfo $paymentInfo, Array $skillPreferences = array()){
-        
+    public function __construct(string $id){
+        $this->id = $id;
     }
     
     public static function constructByRow(array $results) {
-        ;
+        
+        $worker = new Worker(strval($results['id']));
+        $worker->setFirstName($results['first_name']);
+        $worker->setLastName($results['last_name']);
+        $worker->setSkillSet($results['skill_set']);
+        $worker->setAvailability($results['availability']);
+        foreach($results['skill_preference'] as $skillPreference){
+            $worker->addSkillPreference($skillPreference);
+        }
+        $wage = new Wage(floatval($results['hourly_wage']),floatval($results['overtime_wage']));
+        $worker->setPaymentInfo($wage);
+        return $worker;
     }
     
-    public function getSkillSet() {
+    public function getFirstName() {
+        return $this->firstName;
+    }
+
+    public function getLastName() {
+        return $this->lastName;
+    }
+
+    public function setFirstName(string $firstName) {
+        $this->firstName = $firstName;
+    }
+
+    public function setLastName(string $lastName) {
+        $this->lastName = $lastName;
+    }
+
+        public function getSkillSet() {
         return $this->skillSet;
     }
 
@@ -31,8 +60,8 @@ class Worker implements \database\Persistent
         return $this->skillPreferences;
     }
 
-    public function getSchedule() {
-        return $this->schedule;
+    public function getAvailability() {
+        return $this->availability;
     }
 
     public function getPaymentInfo() {
@@ -47,8 +76,8 @@ class Worker implements \database\Persistent
         $this->skillPreferences[$skillPreference->getSkill()->getId()] = $skillPreference;
     }
 
-    public function setSchedule(Schedule $schedule) {
-        $this->schedule = $schedule;
+    public function setAvailability(Availability $availability) {
+        $this->availability = $availability;
     }
 
     public function setPaymentInfo(PaymentInfo $paymentInfo) {

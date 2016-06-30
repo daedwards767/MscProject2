@@ -1,4 +1,4 @@
-<?php
+ <?php
 declare(strict_types=1);
 namespace project; 
 
@@ -6,7 +6,7 @@ class Assignment{
     protected $work;
     protected $workers = array();
     
-    public function __construct(Work $work, Array $workers){
+    public function __construct(WorkIteration $work, Array $workers){
         $this->setWork($work);
         foreach($workers as $worker){
             $this->addWorker($worker);
@@ -21,7 +21,7 @@ class Assignment{
         return $this->workers;
     }
 
-    protected function setWork(Work $work) {
+    protected function setWork(WorkIteration $work) {
         $this->work = $work;
     }
 

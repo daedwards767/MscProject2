@@ -1,0 +1,168 @@
+CREATE DATABASE IF NOT EXISTS prototype;
+USE prototype;
+
+CREATE TABLE Project(
+	id INT PRIMARY KEY,
+	project_name VARCHAR(100) UNIQUE,
+	effort INT CHECK (effort >= 0),
+	cost DECIMAL(18,2) CHECK (cost >= 0),
+	duration INT CHECK (duration >= 0),
+	start_date DATETIME,
+	end_date DATETIME CHECK (start_date <= end_date)
+
+);
+
+CREATE TABLE ProjectEstimation(
+	pe_id INT PRIMARY KEY,
+	est_effort INT CHECK (est_effort >= 0),
+	est_cost DECIMAL(18,2) CHECK (est_cost >= 0),
+	est_duration INT CHECK (est_duration >= 0),
+	est_start_date DATETIME,
+	est_end_date DATETIME CHECK (est_start_date <= est_end_date),
+	FOREIGN KEY (pe_id) REFERENCES Project(id)
+
+);
+
+CREATE TABLE ProjectConstraints(
+	pc_id INT PRIMARY KEY,
+	max_effort INT CHECK (effort >= 0),
+	budget DECIMAL(18,2) CHECK (cost >= 0),
+	max_duration INT CHECK (duration >= 0),
+	latest_start_date DATETIME,
+	latest_end_date DATETIME CHECK (start_date <= end_date),
+	FOREIGN KEY (pc_id) REFERENCES Project(id)
+
+);
+
+CREATE TABLE Skill(
+	id VARCHAR(100) PRIMARY KEY,
+    	min_value INT NOT NULL CHECK (min_value >= 0),
+    	max_value INT NOT NULL CHECK (max_value >= 0),
+	CHECK (max_value >= min_value)
+);
+
+CREATE TABLE ProjectSkillSet(
+	id INT,
+	skill VARCHAR(100),
+	skill_level INT NOT NULL CHECK (skill_level >= 0), 
+	FOREIGN KEY (id) REFERENCES Project(id),
+	FOREIGN KEY (skill) REFERENCES Skill(id),
+	PRIMARY KEY(id, skill)
+);
+
+CREATE TABLE Worker(
+	id INT PRIMARY KEY,
+	first_name VARCHAR(100),
+	last_name VARCHAR (100)
+);
+
+CREATE TABLE ProjectAssignment(
+	pa_id INT,
+	worker_id INT,
+	FOREIGN KEY (pa_id) REFERENCES Project(id),
+	FOREIGN KEY (worker_id) REFERENCES Worker(id),
+	PRIMARY KEY (pa_id, worker_id)
+);
+
+CREATE TABLE Node(
+	parent VARCHAR(20) NOT NULL,
+	child VARCHAR(20) NOT NULL,
+	PRIMARY KEY (parent, child)
+);
+
+CREATE TABLE Task(
+	id VARCHAR(20) PRIMARY KEY,
+	project_id INT,
+	node_id VARCHAR(20) NOT NULL UNIQUE,
+	current_iteration INT CHECK (current_iteration >= 1),
+	FOREIGN KEY (project_id) REFERENCES Project(id)
+);
+
+CREATE TABLE TaskIteration(
+	iteration_no INT CHECK (iteration_no >= 1),
+	ti_id VARCHAR(20),
+	effort INT CHECK (effort >= 0),
+	cost DECIMAL(18,2) CHECK (cost >= 0),
+	duration INT CHECK (duration >= 0),
+	start_date DATETIME,
+	end_date DATETIME CHECK (start_date <= end_date),
+	FOREIGN KEY (ti_id) REFERENCES Task(id), 
+	PRIMARY KEY (ti_id, iteration_no)
+);
+
+CREATE TABLE TaskEstimation(
+	iteration_no INT CHECK (iteration_no >= 1),
+	te_id VARCHAR(20),
+	est_effort INT CHECK (est_effort >= 0),
+	est_cost DECIMAL(18,2) CHECK (est_cost >= 0),
+	est_duration INT CHECK (est_duration >= 0),
+	est_start_date DATETIME,
+	est_end_date DATETIME CHECK (est_start_date <= est_end_date),
+	FOREIGN KEY (te_id) REFERENCES Task(id), 
+	PRIMARY KEY (te_id, iteration_no)
+);
+
+CREATE TABLE TaskConstraints(
+	iteration_no INT CHECK (iteration_no >= 1),
+	tc_id VARCHAR(20),
+	max_effort INT CHECK (effort >= 0),
+	budget DECIMAL(18,2) CHECK (cost >= 0),
+	max_duration INT CHECK (duration >= 0),
+	latest_start_date DATETIME,
+	latest_end_date DATETIME CHECK (start_date <= end_date),
+	FOREIGN KEY (tc_id) REFERENCES Task(id), 
+	PRIMARY KEY (tc_id, iteration_no)
+);
+
+CREATE TABLE TaskSkillSet(
+	ts_id VARCHAR(20),
+	iteration_no INT CHECK (iteration_no >= 1),
+	skill VARCHAR (100),
+	skill_level INT NOT NULL CHECK (skill_level >= 0),
+	FOREIGN KEY (ts_id) REFERENCES Task(id), 
+	FOREIGN KEY (skill) REFERENCES Skill(id),
+	PRIMARY KEY (ts_id, iteration_no, skill)
+);
+
+CREATE TABLE TaskAssignment(
+	ta_id VARCHAR(20),
+	iteration_no INT CHECK (iteration_no >= 1),
+	worker_id INT,
+	FOREIGN KEY (ta_id) REFERENCES Task(id), 
+	FOREIGN KEY (worker_id) REFERENCES Worker(id),
+	PRIMARY KEY (ta_id, iteration_no, worker_id)	
+);
+
+CREATE TABLE WorkerSkillSet(
+	worker_id INT,
+	skill VARCHAR(100),
+	skill_level INT NOT NULL CHECK (skill_level >= 0),
+	FOREIGN KEY (skill) REFERENCES Skill(id),
+	FOREIGN KEY (worker_id) REFERENCES Worker(id),
+	PRIMARY KEY (worker_id, skill)	
+);
+
+CREATE TABLE WorkerSkillPreference(
+	worker_id INT,
+	skill VARCHAR(100),
+	preference INT NOT NULL CHECK (preference >= 0),
+	FOREIGN KEY (skill) REFERENCES Skill(id),
+	FOREIGN KEY (worker_id) REFERENCES Worker(id),
+	PRIMARY KEY (worker_id, skill)	
+);
+
+CREATE TABLE DatesUnavailable(
+	worker_id INT,
+	_date DATETIME,
+	FOREIGN KEY (worker_id) REFERENCES Worker(id),
+	PRIMARY KEY (worker_id, _date)
+);
+
+CREATE TABLE PaymentInfo(
+	worker_id INT,
+	is_fixed_wage BOOLEAN DEFAULT FALSE,
+	hourly_wage DECIMAL(18,2),
+	overtime_wage DECIMAL(18,2),
+	FOREIGN KEY (worker_id) REFERENCES Worker(id),
+	PRIMARY KEY (worker_id)
+);
