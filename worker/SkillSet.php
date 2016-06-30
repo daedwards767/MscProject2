@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace worker; 
 
-class SkillSet 
+class SkillSet implements \dataexport\Exportable
 {
     /*
      * Author: Davidson Anthony Edwards
