@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-namespace project; 
+namespace dataexport; 
 
 interface Exportable{
    public function getDataExport();
