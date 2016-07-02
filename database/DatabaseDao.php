@@ -40,7 +40,7 @@ abstract class DatabaseDao implements DataAccessObject{
             $bind_parameters[] = &$value ;
         }
         
-       // print_r($sql);
+       //print_r($sql);
         call_user_func_array(array($statement, 'bind_param'), $bind_parameters);
         //$statement->bind_param("s", $value);
         $statement->execute();

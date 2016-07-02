@@ -8,6 +8,7 @@ abstract class SkillSetDao extends \database\DatabaseDao{
     
     public function __construct(string $tablename, string $idname = 'id'){
         $this->tablename = "$tablename JOIN Skill ON $tablename.skill = Skill.name";
+        $this->idname = $idname;
     }
 
 

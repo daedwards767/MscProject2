@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace project; 
 
-class Project extends WorkIteration implements \database\Persistent{
+class Project extends WorkIteration implements \database\Persistent, \dataexport\Exportable{
     /*
      * Author: Davidson Anthony Edwards
      * Purpose: A collection of interlinked tasks carried out by a team towards the completion of a goal
@@ -66,6 +66,10 @@ class Project extends WorkIteration implements \database\Persistent{
                 $project->setSkillSet($results['skill_set']);
                 return $project;
             }
+    }
+    
+    public function getDataExport() {
+         return new ProjectData($this);
     }
     
     public function getProjectName() {

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Get Data</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="assets/js/jquery-1.11.2.min.js"></script>
+        <style>
+            
+            body{
+                background: aliceblue;
+         
+            }
+            #topbar, #footer{
+                background: lightskyblue;
+                height: 80px;
+                
+                
+                margin-bottom: 20px;
+            }
+            
+            #footer{
+                margin-top: 220px;
+                float: bottom;
+            }
+            
+            #central{
+                border-radius : 7px;
+                background: steelblue;
+                
+                padding : 20px;
+                color: white;
+                width: 200px;
+                margin: auto;
+            }
+            
+            #results{
+               
+                margin: auto;
+                margin-top: 10px;
+                border: 1px #333 solid;
+                padding-top: 5px;
+                width: 1000px;
+                overflow-x: scroll;
+                padding: 10px 0px; 
+                 background: white;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="topbar"></div>
+        <div id='central'>
+            <p>Choose Data Format</p>
+            
+            <input class="radio" type="radio" name="format" value="json"> json
+            <input class="radio" type="radio" name="format" value="xml"> xml
+            <input class="radio" type="radio" name="format" value="csv"> csv
+            <div style="padding:10px">
+            <button id="getdata" onclick="getdata()">Get Data</button>
+            </div>
+        </div>
+        <div id="results">
+          
+        </div>
+        <div id="footer"></div>
+   
+    </body>
+</html>
+<script>
+    function getdata(){
+    dataformat = $(".radio").select().attr('value');
+   // alert(dataformat);
+        $.post(
+                "dataexport/ExportSocket.php", 
+                {
+                    function: 'getProjectData',
+                    format: 'json'
+                },
+                function(data){
+                    var json = $.parseJSON(data); 
+                    /*var html = "<table><thead><th>Name</th><th>Val</th></thead><tbody>";
+                    json.forEach(function(object){
+                        html += "<tr><td>" + object.name + "</td><td>" + object.val + "</td></tr>";
+                        });
+                    html += "</tbody></table>";*/
+
+                    $('#results').html(data);
+                }
+                );
+        }
+</script>
+
+

@@ -45,4 +45,13 @@ class SkillSet implements \dataexport\Exportable
         //considers every worker to have every skill, with the lowest proficiency representing them 'not having' it
         //therefore, both the presence and absense of skills are meaningful
     }
+
+    public function getDataExport() {
+        $data = array();
+        foreach($this->skillLevels as $skillLevel){
+            $data[$skillLevel->getSkill()->getName()] = $skillLevel->getLevel();
+        }
+        return $data;
+    }
+
 }
